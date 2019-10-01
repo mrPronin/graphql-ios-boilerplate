@@ -1,0 +1,6 @@
+framework module iOSReusableExtensions {
+  umbrella header "iOSReusableExtensions-umbrella.h"
+
+  export *
+  module * { export * }
+}

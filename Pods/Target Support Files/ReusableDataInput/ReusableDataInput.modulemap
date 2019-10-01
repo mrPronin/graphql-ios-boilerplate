@@ -1,0 +1,6 @@
+framework module ReusableDataInput {
+  umbrella header "ReusableDataInput-umbrella.h"
+
+  export *
+  module * { export * }
+}

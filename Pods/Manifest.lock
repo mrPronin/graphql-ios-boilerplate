@@ -1,0 +1,88 @@
+PODS:
+  - Apollo (0.16.0):
+    - Apollo/Core (= 0.16.0)
+  - Apollo/Core (0.16.0)
+  - AppAuth (1.2.0):
+    - AppAuth/Core (= 1.2.0)
+    - AppAuth/ExternalUserAgent (= 1.2.0)
+  - AppAuth/Core (1.2.0)
+  - AppAuth/ExternalUserAgent (1.2.0)
+  - CryptoSwift (1.0.0)
+  - FBSDKCoreKit (5.6.0):
+    - FBSDKCoreKit/Basics (= 5.6.0)
+    - FBSDKCoreKit/Core (= 5.6.0)
+  - FBSDKCoreKit/Basics (5.6.0)
+  - FBSDKCoreKit/Core (5.6.0):
+    - FBSDKCoreKit/Basics
+  - FBSDKLoginKit (5.6.0):
+    - FBSDKLoginKit/Login (= 5.6.0)
+  - FBSDKLoginKit/Login (5.6.0):
+    - FBSDKCoreKit (~> 5.0)
+  - GoogleSignIn (5.0.0):
+    - AppAuth (~> 1.1)
+    - GTMAppAuth (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - GTMAppAuth (1.0.0):
+    - AppAuth/Core (~> 1.0)
+    - GTMSessionFetcher (~> 1.1)
+  - GTMSessionFetcher (1.2.2):
+    - GTMSessionFetcher/Full (= 1.2.2)
+  - GTMSessionFetcher/Core (1.2.2)
+  - GTMSessionFetcher/Full (1.2.2):
+    - GTMSessionFetcher/Core (= 1.2.2)
+  - InputMask (4.3.0)
+  - iOSReusableExtensions (1.0.9):
+    - InputMask (~> 4.0)
+  - NVActivityIndicatorView (4.8.0):
+    - NVActivityIndicatorView/Presenter (= 4.8.0)
+  - NVActivityIndicatorView/Presenter (4.8.0)
+  - ReusableDataInput (1.0.4):
+    - InputMask (~> 4.0)
+    - iOSReusableExtensions
+  - Toaster (2.2.0)
+
+DEPENDENCIES:
+  - Apollo
+  - CryptoSwift
+  - FBSDKLoginKit
+  - GoogleSignIn
+  - iOSReusableExtensions
+  - NVActivityIndicatorView
+  - ReusableDataInput
+  - Toaster
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Apollo
+    - AppAuth
+    - CryptoSwift
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - GoogleSignIn
+    - GTMAppAuth
+    - GTMSessionFetcher
+    - InputMask
+    - NVActivityIndicatorView
+    - Toaster
+  "https://mrpronin@bitbucket.org/mrpronin/privatepodspecs.git":
+    - iOSReusableExtensions
+    - ReusableDataInput
+
+SPEC CHECKSUMS:
+  Apollo: ad9ce2008f88fce57c062aa4853364b7927355c8
+  AppAuth: bce82c76043657c99d91e7882e8a9e1a93650cd4
+  CryptoSwift: d81eeaa59dc5a8d03720fe919a6fd07b51f7439f
+  FBSDKCoreKit: d6655a343868d4bb5c29a60859bab07c3be14a0b
+  FBSDKLoginKit: c5a623de88a6b0cda35b35582921f6cec2efcc36
+  GoogleSignIn: a62edd0516721d2a3db1259a5681b91f9b41c06a
+  GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
+  GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
+  InputMask: 3674235e12cc52e769b01b2f35d6bbc94cd059c7
+  iOSReusableExtensions: f525bfe9d35a44184f8a96078ba3fe1679fde890
+  NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
+  ReusableDataInput: 2a4385fe64f65f0a7395237c9873d695cb902b83
+  Toaster: c1a81b376edcc2470157b4d1ee1e9341d3b96455
+
+PODFILE CHECKSUM: ff94af434452c14e61a3a84c85ff3507811bbfab
+
+COCOAPODS: 1.8.0

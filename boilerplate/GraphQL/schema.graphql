@@ -1,0 +1,52 @@
+fragment UserDetails on User {
+    id
+    name
+    lastName
+    email
+    picture
+    signupType
+    createdAt
+    updatedAt
+}
+
+mutation CreateUser($data: CreateUserInput!) {
+    createUser(data: $data) {
+        token
+        user {
+            ...UserDetails
+        }
+    }
+}
+
+mutation Login($data: LoginUserInput!) {
+    login(data: $data) {
+        token
+        user {
+            ...UserDetails
+        }
+    }
+}
+
+query Me {
+    me {
+        ...UserDetails
+    }
+}
+
+mutation DeleteUser {
+    deleteUser {
+        ...UserDetails
+    }
+}
+
+mutation ContinueWithGoogle($data: AuthInput!) {
+    continueWithGoogle(data: $data) {
+        token
+    }
+}
+
+mutation ContinueWithFacebook($data: AuthInput!) {
+    continueWithFacebook(data: $data) {
+        token
+    }
+}
