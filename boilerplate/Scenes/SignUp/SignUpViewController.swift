@@ -10,7 +10,6 @@ import UIKit
 import ReusableDataInput
 import iOSReusableExtensions
 import GoogleSignIn
-import NVActivityIndicatorView
 import CryptoSwift
 import FBSDKLoginKit
 import FBSDKCoreKit
@@ -38,8 +37,7 @@ class SignUpViewController: BaseViewController
     
     @IBAction func registerWithGoogleAction(_ sender: Any)
     {
-        let activityData = ActivityData()
-        NVActivityIndicatorPresenter.sharedInstance.startAnimating(activityData, nil)
+        self.showModalActivityIndicator()
         
         GIDSignIn.sharedInstance().signIn()
     }
@@ -166,6 +164,7 @@ extension SignUpViewController: GIDSignInDelegate
 {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!)
     {
+        self.hideModalActivityIndicator()
         /*
         #if !PROD
         print("[\(type(of: self)) \(#function)]")
@@ -308,33 +307,32 @@ extension SignUpViewController
         let input = CreateUserInput(name: firstName, email: email, password: password, lastName: lastName)
         let createUser = CreateUserMutation(data: input)
         
-        let activityData = ActivityData()
-        NVActivityIndicatorPresenter.sharedInstance.startAnimating(activityData, nil)
+        self.showModalActivityIndicator()
         
-        ApolloManager.shared.client.perform(mutation: createUser) { [unowned self] result in
-            NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
+        ApolloManager.shared.client.perform(mutation: createUser) { [weak self] result in
+            guard let strongSelf = self else { return }
+            strongSelf.hideModalActivityIndicator()
             switch result {
             case .success(let graphQLResult):
                 guard let token = graphQLResult.data?.createUser.token, !token.isEmpty, let user = graphQLResult.data?.createUser.user.fragments.userDetails else {
                     let message = "Wrong server response.".localized
-                    let errorMessage = "\(self.errorMessageHeader) \(message)"
+                    let errorMessage = "\(strongSelf.errorMessageHeader) \(message)"
                     #if !PROD
                     print("[\(type(of: self)) \(#function)] 3: errorMessage: \(errorMessage)")
                     #endif
-                    self.displayError(message: errorMessage)
+                    strongSelf.displayError(message: errorMessage)
                     return
                 }
                 ApolloManager.shared.setAuthorization(token: token)
                 appDelegate.repository.user = User(user)
-                ApolloManager.shared.client.fetch(query: MeQuery(), cachePolicy: .fetchIgnoringCacheData, queue: .main)
-                { result in
-                    NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
+                ApolloManager.shared.client.fetch(query: MeQuery(), cachePolicy: .fetchIgnoringCacheData, queue: .main) { [weak self] result in
+                    guard let strongSelf = self else { return }
                     switch result {
                     case .success(let graphQLResult):
                         guard let user = graphQLResult.data?.me.fragments.userDetails else {
                             let message = "Unable to sign up.".localized
-                            let errorMessage = "\(self.errorMessageHeader) \(message)"
-                            self.displayError(message: errorMessage)
+                            let errorMessage = "\(strongSelf.errorMessageHeader) \(message)"
+                            strongSelf.displayError(message: errorMessage)
                             ApolloManager.shared.removeAuthorization()
                             return
                         }
@@ -343,8 +341,8 @@ extension SignUpViewController
                         appDelegate.window?.rootViewController = tabBar
                     case .failure( _):
                         let message = "Unable to sign up.".localized
-                        let errorMessage = "\(self.errorMessageHeader) \(message)"
-                        self.displayError(message: errorMessage)
+                        let errorMessage = "\(strongSelf.errorMessageHeader) \(message)"
+                        strongSelf.displayError(message: errorMessage)
                         return
                     }
                 }
@@ -360,11 +358,11 @@ extension SignUpViewController
                 }
                 */
                 
-                let errorMessage = "\(self.errorMessageHeader) \(error.localizedDescription)"
+                let errorMessage = "\(strongSelf.errorMessageHeader) \(error.localizedDescription)"
                 #if !PROD
                 print("[\(type(of: self)) \(#function)] 3: errorMessage: \(errorMessage)")
                 #endif
-                self.displayError(message: errorMessage)
+                strongSelf.displayError(message: errorMessage)
                 return
             }
         }

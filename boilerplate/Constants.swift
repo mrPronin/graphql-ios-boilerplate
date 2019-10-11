@@ -20,7 +20,7 @@ struct Constants
     #elseif DEV
     
     static let baseURL = "http://localhost:4001"
-    static let googleClientID = "1062702088696-skscbia3mi4u6a3entta6nfr82sbf16u.apps.googleusercontent.com"
+    static let googleClientID = "380175813584-u5u3lrr1s7qhrva77nerlk9v7q4eo7ro.apps.googleusercontent.com"
 
     #elseif TEST
     

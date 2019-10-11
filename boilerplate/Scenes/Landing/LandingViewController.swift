@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NVActivityIndicatorView
 
 class LandingViewController: BaseViewController
 {
@@ -45,11 +44,11 @@ extension LandingViewController
         
         ApolloManager.shared.setAuthorization(token: token)
         
-        let activityData = ActivityData()
-        NVActivityIndicatorPresenter.sharedInstance.startAnimating(activityData, nil)
+        self.showModalActivityIndicator()
         
-        ApolloManager.shared.client.fetch(query: MeQuery(), cachePolicy: .fetchIgnoringCacheData, queue: .main) { result in
-            NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
+        ApolloManager.shared.client.fetch(query: MeQuery(), cachePolicy: .fetchIgnoringCacheData, queue: .main) { [weak self] result in
+            guard let strongSelf = self else { return }
+            strongSelf.hideModalActivityIndicator()
             switch result {
             case .success(let graphQLResult):
                 guard let user = graphQLResult.data?.me.fragments.userDetails else {
@@ -65,7 +64,7 @@ extension LandingViewController
                 }
                 */
                 #if !PROD
-                print("[\(type(of: self)) \(#function)] errorMessage: \(error)")
+                print("[\(type(of: strongSelf)) \(#function)] errorMessage: \(error)")
                 #endif
                 return
             }

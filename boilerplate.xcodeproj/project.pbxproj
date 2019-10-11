@@ -28,6 +28,12 @@
 		09C2A98D233CDBB800E79EB8 /* AppDelegate+appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C2A98C233CDBB800E79EB8 /* AppDelegate+appearance.swift */; };
 		09C2A98E233CDBB800E79EB8 /* AppDelegate+appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C2A98C233CDBB800E79EB8 /* AppDelegate+appearance.swift */; };
 		09C2A98F233CDBB800E79EB8 /* AppDelegate+appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C2A98C233CDBB800E79EB8 /* AppDelegate+appearance.swift */; };
+		09C4A8D1234F8EEF0077373D /* UIViewController+NVActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C4A8D0234F8EEF0077373D /* UIViewController+NVActivityIndicator.swift */; };
+		09C4A8D2234F8EEF0077373D /* UIViewController+NVActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C4A8D0234F8EEF0077373D /* UIViewController+NVActivityIndicator.swift */; };
+		09C4A8D3234F8EEF0077373D /* UIViewController+NVActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C4A8D0234F8EEF0077373D /* UIViewController+NVActivityIndicator.swift */; };
+		09C4A8D5234F8F1B0077373D /* UIView+NVActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C4A8D4234F8F1B0077373D /* UIView+NVActivityIndicator.swift */; };
+		09C4A8D6234F8F1B0077373D /* UIView+NVActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C4A8D4234F8F1B0077373D /* UIView+NVActivityIndicator.swift */; };
+		09C4A8D7234F8F1B0077373D /* UIView+NVActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C4A8D4234F8F1B0077373D /* UIView+NVActivityIndicator.swift */; };
 		3ED16D4F226B501900BE016C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED16D4E226B501900BE016C /* AppDelegate.swift */; };
 		3ED16D51226B501900BE016C /* LandingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED16D50226B501900BE016C /* LandingViewController.swift */; };
 		3ED16D54226B501900BE016C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3ED16D52226B501900BE016C /* Main.storyboard */; };
@@ -119,6 +125,8 @@
 		09C2A983233CA83600E79EB8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		09C2A988233CA92C00E79EB8 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		09C2A98C233CDBB800E79EB8 /* AppDelegate+appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+appearance.swift"; sourceTree = "<group>"; };
+		09C4A8D0234F8EEF0077373D /* UIViewController+NVActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+NVActivityIndicator.swift"; sourceTree = "<group>"; };
+		09C4A8D4234F8F1B0077373D /* UIView+NVActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+NVActivityIndicator.swift"; sourceTree = "<group>"; };
 		09F84F6C2289FE5200169F2F /* FacebookCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookCore.framework; path = Carthage/Build/iOS/FacebookCore.framework; sourceTree = "<group>"; };
 		09F84F6E2289FE5E00169F2F /* FacebookLogin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookLogin.framework; path = Carthage/Build/iOS/FacebookLogin.framework; sourceTree = "<group>"; };
 		09F84F702289FE6C00169F2F /* FacebookShare.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookShare.framework; path = Carthage/Build/iOS/FacebookShare.framework; sourceTree = "<group>"; };
@@ -388,6 +396,8 @@
 			isa = PBXGroup;
 			children = (
 				3ED16D8C226E5C4B00BE016C /* String+localized.swift */,
+				09C4A8D0234F8EEF0077373D /* UIViewController+NVActivityIndicator.swift */,
+				09C4A8D4234F8F1B0077373D /* UIView+NVActivityIndicator.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -857,6 +867,7 @@
 				3ED16D51226B501900BE016C /* LandingViewController.swift in Sources */,
 				09C2A989233CA92C00E79EB8 /* UserRepository.swift in Sources */,
 				3ED16D91226E602300BE016C /* InputView+Appearance.swift in Sources */,
+				09C4A8D1234F8EEF0077373D /* UIViewController+NVActivityIndicator.swift in Sources */,
 				3ED16D9B226E660700BE016C /* DesignableDatePicker+Appearance.swift in Sources */,
 				3ED16D73226B881500BE016C /* OnDemandViewController.swift in Sources */,
 				3ED16D67226B5BE000BE016C /* SignUpViewController.swift in Sources */,
@@ -870,6 +881,7 @@
 				3ED16D8D226E5C4B00BE016C /* String+localized.swift in Sources */,
 				3ED16D89226C6DD200BE016C /* ApolloManager.swift in Sources */,
 				3ED16D6D226B864000BE016C /* HomeViewController.swift in Sources */,
+				09C4A8D5234F8F1B0077373D /* UIView+NVActivityIndicator.swift in Sources */,
 				3ED16D9F226E66CB00BE016C /* DesignableMonthYearPicker+Appearance.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -892,6 +904,7 @@
 				3ED16DAB22703D7900BE016C /* LandingViewController.swift in Sources */,
 				09C2A98A233CA92C00E79EB8 /* UserRepository.swift in Sources */,
 				3ED16DAC22703D7900BE016C /* InputView+Appearance.swift in Sources */,
+				09C4A8D2234F8EEF0077373D /* UIViewController+NVActivityIndicator.swift in Sources */,
 				3ED16DAD22703D7900BE016C /* DesignableDatePicker+Appearance.swift in Sources */,
 				3ED16DAE22703D7900BE016C /* OnDemandViewController.swift in Sources */,
 				3ED16DAF22703D7900BE016C /* SignUpViewController.swift in Sources */,
@@ -905,6 +918,7 @@
 				3ED16DB522703D7900BE016C /* String+localized.swift in Sources */,
 				3ED16DB622703D7900BE016C /* ApolloManager.swift in Sources */,
 				3ED16DB722703D7900BE016C /* HomeViewController.swift in Sources */,
+				09C4A8D6234F8F1B0077373D /* UIView+NVActivityIndicator.swift in Sources */,
 				3ED16DB822703D7900BE016C /* DesignableMonthYearPicker+Appearance.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -927,6 +941,7 @@
 				3ED16DD52270F58800BE016C /* LandingViewController.swift in Sources */,
 				09C2A98B233CA92C00E79EB8 /* UserRepository.swift in Sources */,
 				3ED16DD62270F58800BE016C /* InputView+Appearance.swift in Sources */,
+				09C4A8D3234F8EEF0077373D /* UIViewController+NVActivityIndicator.swift in Sources */,
 				3ED16DD72270F58800BE016C /* DesignableDatePicker+Appearance.swift in Sources */,
 				3ED16DD82270F58800BE016C /* OnDemandViewController.swift in Sources */,
 				3ED16DD92270F58800BE016C /* SignUpViewController.swift in Sources */,
@@ -940,6 +955,7 @@
 				3ED16DDF2270F58800BE016C /* String+localized.swift in Sources */,
 				3ED16DE02270F58800BE016C /* ApolloManager.swift in Sources */,
 				3ED16DE12270F58800BE016C /* HomeViewController.swift in Sources */,
+				09C4A8D7234F8F1B0077373D /* UIView+NVActivityIndicator.swift in Sources */,
 				3ED16DE22270F58800BE016C /* DesignableMonthYearPicker+Appearance.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

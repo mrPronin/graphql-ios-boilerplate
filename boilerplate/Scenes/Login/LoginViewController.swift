@@ -9,7 +9,6 @@
 import UIKit
 import ReusableDataInput
 import iOSReusableExtensions
-import NVActivityIndicatorView
 import CryptoSwift
 import GoogleSignIn
 import FBSDKLoginKit
@@ -38,8 +37,7 @@ class LoginViewController: BaseViewController
     
     @IBAction func loginWithGoogleAction(_ sender: Any)
     {
-        let activityData = ActivityData()
-        NVActivityIndicatorPresenter.sharedInstance.startAnimating(activityData, nil)
+        self.showModalActivityIndicator()
         
         GIDSignIn.sharedInstance().signIn()
     }
@@ -125,6 +123,7 @@ extension LoginViewController: GIDSignInDelegate
         #endif
         
         if let error = error {
+            self.hideModalActivityIndicator()
             #if !PROD
             print("[\(type(of: self)) \(#function)] error: \(error.localizedDescription)")
             #endif
@@ -139,38 +138,36 @@ extension LoginViewController: GIDSignInDelegate
         {
             return
         }
-        let activityData = ActivityData()
-        NVActivityIndicatorPresenter.sharedInstance.startAnimating(activityData, nil)
         
         let input = AuthInput(accessToken: idToken, refreshToken: refreshToken)
         let continueWithGoogle = ContinueWithGoogleMutation(data: input)
-        ApolloManager.shared.client.perform(mutation: continueWithGoogle) { result in
-            NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
+        ApolloManager.shared.client.perform(mutation: continueWithGoogle) { [weak self] result in
+            guard let strongSelf = self else { return }
+            strongSelf.hideModalActivityIndicator()
             switch result {
             case .success(let graphQLResult):
                 guard let token = graphQLResult.data?.continueWithGoogle.token else {
                     let message = "Wrong server response.".localized
-                    let errorMessage = "\(self.errorMessageHeader) \(message)"
+                    let errorMessage = "\(strongSelf.errorMessageHeader) \(message)"
                     #if !PROD
                     print("[\(type(of: self)) \(#function)] 3: errorMessage: \(errorMessage)")
                     #endif
-                    self.displayError(message: errorMessage)
+                    strongSelf.displayError(message: errorMessage)
                     return
                 }
                 ApolloManager.shared.setAuthorization(token: token)
                 
-                let activityData = ActivityData()
-                NVActivityIndicatorPresenter.sharedInstance.startAnimating(activityData, nil)
+                strongSelf.showModalActivityIndicator()
 
-                ApolloManager.shared.client.fetch(query: MeQuery(), cachePolicy: .fetchIgnoringCacheData, queue: .main)
-                { result in
-                    NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
+                ApolloManager.shared.client.fetch(query: MeQuery(), cachePolicy: .fetchIgnoringCacheData, queue: .main) { [weak self] result in
+                    guard let strongSelf = self else { return }
+                    strongSelf.hideModalActivityIndicator()
                     switch result {
                     case .success(let graphQLResult):
                         guard let user = graphQLResult.data?.me.fragments.userDetails else {
                             let message = "Unable to login.".localized
-                            let errorMessage = "\(self.errorMessageHeader) \(message)"
-                            self.displayError(message: errorMessage)
+                            let errorMessage = "\(strongSelf.errorMessageHeader) \(message)"
+                            strongSelf.displayError(message: errorMessage)
                             ApolloManager.shared.removeAuthorization()
                             return
                         }
@@ -178,7 +175,7 @@ extension LoginViewController: GIDSignInDelegate
                         appDelegate.repository.user = User(user)
                         let tabBar = TabBarController.instantiate(fromAppStoryboard: .Main)
                         appDelegate.window?.rootViewController = tabBar
-                    case .failure(let error):
+                    case .failure( _):
                         /*
                         if let _ = result?.errors?.first {
                             let message = "Unable to login.".localized
@@ -188,8 +185,8 @@ extension LoginViewController: GIDSignInDelegate
                         }
                         */
                         let message = "Unable to login.".localized
-                        let errorMessage = "\(self.errorMessageHeader) \(message)"
-                        self.displayError(message: errorMessage)
+                        let errorMessage = "\(strongSelf.errorMessageHeader) \(message)"
+                        strongSelf.displayError(message: errorMessage)
                         return
                     }
                 }
@@ -204,11 +201,11 @@ extension LoginViewController: GIDSignInDelegate
                     return
                 }
                 */
-                let errorMessage = "\(self.errorMessageHeader) \(error.localizedDescription)"
+                let errorMessage = "\(strongSelf.errorMessageHeader) \(error.localizedDescription)"
                 #if !PROD
                 print("[\(type(of: self)) \(#function)]: \(errorMessage)")
                 #endif
-                self.displayError(message: errorMessage)
+                strongSelf.displayError(message: errorMessage)
                 return
             }
             
@@ -250,21 +247,20 @@ extension LoginViewController
         let input = LoginUserInput(email: email, password: password)
         let loginUser = LoginMutation(data: input)
         
-        let activityData = ActivityData()
-        NVActivityIndicatorPresenter.sharedInstance.startAnimating(activityData, nil)
+        self.showModalActivityIndicator()
         
-        ApolloManager.shared.client.perform(mutation: loginUser)
-        { [unowned self] result in
-            NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
+        ApolloManager.shared.client.perform(mutation: loginUser) { [weak self] result in
+            guard let strongSelf = self else { return }
+            strongSelf.hideModalActivityIndicator()
             switch result {
             case .success(let graphQLResult):
                 guard let token = graphQLResult.data?.login.token, !token.isEmpty, let user = graphQLResult.data?.login.user.fragments.userDetails else {
                     let message = "Wrong server response.".localized
-                    let errorMessage = "\(self.errorMessageHeader) \(message)"
+                    let errorMessage = "\(strongSelf.errorMessageHeader) \(message)"
                     #if !PROD
                     print("[\(type(of: self)) \(#function)] graphQLResult: \(graphQLResult)")
                     #endif
-                    self.displayError(message: errorMessage)
+                    strongSelf.displayError(message: errorMessage)
                     return
                 }
                 
@@ -274,15 +270,15 @@ extension LoginViewController
                 
                 ApolloManager.shared.setAuthorization(token: token)
                 appDelegate.repository.user = User(user)
-                ApolloManager.shared.client.fetch(query: MeQuery(), cachePolicy: .fetchIgnoringCacheData, queue: .main)
-                { result in
-                    NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
+                ApolloManager.shared.client.fetch(query: MeQuery(), cachePolicy: .fetchIgnoringCacheData, queue: .main) { [weak self] result in
+                    guard let strongSelf = self else { return }
+                    strongSelf.hideModalActivityIndicator()
                     switch result {
                     case .success(let graphQLResult):
                         guard let user = graphQLResult.data?.me.fragments.userDetails else {
                             let message = "Unable to login.".localized
-                            let errorMessage = "\(self.errorMessageHeader) \(message)"
-                            self.displayError(message: errorMessage)
+                            let errorMessage = "\(strongSelf.errorMessageHeader) \(message)"
+                            strongSelf.displayError(message: errorMessage)
                             ApolloManager.shared.removeAuthorization()
                             return
                         }
@@ -291,8 +287,8 @@ extension LoginViewController
                         appDelegate.window?.rootViewController = tabBar
                     case .failure( _):
                         let message = "Unable to login.".localized
-                        let errorMessage = "\(self.errorMessageHeader) \(message)"
-                        self.displayError(message: errorMessage)
+                        let errorMessage = "\(strongSelf.errorMessageHeader) \(message)"
+                        strongSelf.displayError(message: errorMessage)
                         return
                     }
                 }
@@ -308,11 +304,11 @@ extension LoginViewController
                 }
                 */
                 
-                let errorMessage = "\(self.errorMessageHeader) \(error.localizedDescription)"
+                let errorMessage = "\(strongSelf.errorMessageHeader) \(error.localizedDescription)"
                 #if !PROD
                 print("[\(type(of: self)) \(#function)] 3: errorMessage: \(errorMessage)")
                 #endif
-                self.displayError(message: errorMessage)
+                strongSelf.displayError(message: errorMessage)
                 return
             }
         }
@@ -320,75 +316,77 @@ extension LoginViewController
     
     internal func doLoginUpWithFacebook(token: String)
     {
-        /*
-        let activityData = ActivityData()
-        NVActivityIndicatorPresenter.sharedInstance.startAnimating(activityData, nil)
-        
+        self.showModalActivityIndicator()
         let input = AuthInput(accessToken: token, refreshToken: "")
         let continueWithFacebook = ContinueWithFacebookMutation(data: input)
-        ApolloManager.shared.client.perform(mutation: continueWithFacebook) { result, error in
-            NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
-            if let error = error {
-                let errorMessage = "\(self.errorMessageHeader) \(error.localizedDescription)"
+        ApolloManager.shared.client.perform(mutation: continueWithFacebook) { [weak self] result in
+            guard let strongSelf = self else { return }
+            strongSelf.hideModalActivityIndicator()
+            switch result {
+            case .success(let graphQLResult):
+                /*
+                if let error = result?.errors?.first {
+                    let errorMessage = "\(self.errorMessageHeader) \(error.localizedDescription)"
+                    #if !PROD
+                    print("[\(type(of: self)) \(#function)] \(errorMessage)")
+                    #endif
+                    self.displayError(message: errorMessage)
+                    return
+                }
+                */
+                guard let token = graphQLResult.data?.continueWithFacebook.token else {
+                    let message = "Wrong server response.".localized
+                    let errorMessage = "\(strongSelf.errorMessageHeader) \(message)"
+                    #if !PROD
+                    print("[\(type(of: self)) \(#function)] 3: errorMessage: \(errorMessage)")
+                    #endif
+                    strongSelf.displayError(message: errorMessage)
+                    return
+                }
+                ApolloManager.shared.setAuthorization(token: token)
+                
+                strongSelf.showModalActivityIndicator()
+                
+                ApolloManager.shared.client.fetch(query: MeQuery(), cachePolicy: .fetchIgnoringCacheData, queue: .main) { [weak self] result in
+                    guard let strongSelf = self else { return }
+                    strongSelf.hideModalActivityIndicator()
+                    switch result {
+                    case .success(let graphQLResult):
+                        guard let user = graphQLResult.data?.me.fragments.userDetails else {
+                            let message = "Unable to login.".localized
+                            let errorMessage = "\(strongSelf.errorMessageHeader) \(message)"
+                            strongSelf.displayError(message: errorMessage)
+                            ApolloManager.shared.removeAuthorization()
+                            return
+                        }
+                        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+                        appDelegate.repository.user = User(user)
+                        let tabBar = TabBarController.instantiate(fromAppStoryboard: .Main)
+                        appDelegate.window?.rootViewController = tabBar
+                    case .failure( _):
+                        /*
+                        if let _ = result?.errors?.first {
+                            let message = "Unable to login.".localized
+                            let errorMessage = "\(self.errorMessageHeader) \(message)"
+                            self.displayError(message: errorMessage)
+                            return
+                        }
+                        */
+                        let message = "Unable to login.".localized
+                        let errorMessage = "\(strongSelf.errorMessageHeader) \(message)"
+                        strongSelf.displayError(message: errorMessage)
+                    }
+                }
+            case .failure(let error):
+                let errorMessage = "\(strongSelf.errorMessageHeader) \(error.localizedDescription)"
                 #if !PROD
                 print("[\(type(of: self)) \(#function)] \(errorMessage)")
                 #endif
-                self.displayError(message: errorMessage)
-                return
-            }
-            if let error = result?.errors?.first {
-                let errorMessage = "\(self.errorMessageHeader) \(error.localizedDescription)"
-                #if !PROD
-                print("[\(type(of: self)) \(#function)] \(errorMessage)")
-                #endif
-                self.displayError(message: errorMessage)
+                strongSelf.displayError(message: errorMessage)
                 return
             }
             
-            guard let token = result?.data?.continueWithFacebook.token else {
-                let message = "Wrong server response.".localized
-                let errorMessage = "\(self.errorMessageHeader) \(message)"
-                #if !PROD
-                print("[\(type(of: self)) \(#function)] 3: errorMessage: \(errorMessage)")
-                #endif
-                self.displayError(message: errorMessage)
-                return
-            }
-            ApolloManager.shared.setAuthorization(token: token)
-            
-            let activityData = ActivityData()
-            NVActivityIndicatorPresenter.sharedInstance.startAnimating(activityData, nil)
-            
-            ApolloManager.shared.client.fetch(query: MeQuery(), cachePolicy: .fetchIgnoringCacheData, queue: .main)
-            { result, error in
-                NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
-                if let _ = error {
-                    let message = "Unable to login.".localized
-                    let errorMessage = "\(self.errorMessageHeader) \(message)"
-                    self.displayError(message: errorMessage)
-                    return
-                }
-                if let _ = result?.errors?.first {
-                    let message = "Unable to login.".localized
-                    let errorMessage = "\(self.errorMessageHeader) \(message)"
-                    self.displayError(message: errorMessage)
-                    return
-                }
-                guard let user = result?.data?.me.fragments.userDetails else {
-                    let message = "Unable to login.".localized
-                    let errorMessage = "\(self.errorMessageHeader) \(message)"
-                    self.displayError(message: errorMessage)
-                    ApolloManager.shared.removeAuthorization()
-                    return
-                }
-                if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-                    appDelegate.user = user
-                    let tabBar = TabBarController.instantiate(fromAppStoryboard: .Main)
-                    appDelegate.window?.rootViewController = tabBar
-                }
-            }
         }
-        */
     }
 
     internal func setupViewsOnLoad()
