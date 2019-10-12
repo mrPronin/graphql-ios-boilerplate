@@ -434,7 +434,6 @@
 			buildConfigurationList = 3ED16D5D226B501B00BE016C /* Build configuration list for PBXNativeTarget "boilerplate" */;
 			buildPhases = (
 				DB8D7543070266FBE4553585 /* [CP] Check Pods Manifest.lock */,
-				09C2A981233CA4B200E79EB8 /* Fetch GraphQL schema.json */,
 				3ED16D7F226C52DD00BE016C /* Generate Apollo GraphQL API */,
 				3ED16D47226B501900BE016C /* Sources */,
 				3ED16D48226B501900BE016C /* Frameworks */,
@@ -589,24 +588,6 @@
 			shellScript = "export NVM_DIR=\"$HOME/.nvm\"\n[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"  # This loads nvm\n[ -s \"$NVM_DIR/bash_completion\" ] && \\. \"$NVM_DIR/bash_completion\"  # This loads nvm bash_completion\nnvm use 8\nSCRIPT_PATH=\"${PODS_ROOT}/Apollo/scripts\"\ncd \"${SRCROOT}/boilerplate/GraphQL\"\n\"${SCRIPT_PATH}\"/check-and-run-apollo-cli.sh schema:download --endpoint=http://localhost:4001 schema.json\n";
 		};
 		09C2A980233CA4A400E79EB8 /* Fetch GraphQL schema.json */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Fetch GraphQL schema.json";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NVM_DIR=\"$HOME/.nvm\"\n[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"  # This loads nvm\n[ -s \"$NVM_DIR/bash_completion\" ] && \\. \"$NVM_DIR/bash_completion\"  # This loads nvm bash_completion\nnvm use 8\nSCRIPT_PATH=\"${PODS_ROOT}/Apollo/scripts\"\ncd \"${SRCROOT}/boilerplate/GraphQL\"\n\"${SCRIPT_PATH}\"/check-and-run-apollo-cli.sh schema:download --endpoint=http://localhost:4001 schema.json\n";
-		};
-		09C2A981233CA4B200E79EB8 /* Fetch GraphQL schema.json */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1117,7 +1098,7 @@
 					"@executable_path/Frameworks",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -DPROD";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pronin.boilerplate;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pronin.boilerplate-dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1141,7 +1122,7 @@
 					"@executable_path/Frameworks",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -DPROD";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pronin.boilerplate;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pronin.boilerplate-dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -360,7 +360,7 @@ extension SignUpViewController
                 
                 let errorMessage = "\(strongSelf.errorMessageHeader) \(error.localizedDescription)"
                 #if !PROD
-                print("[\(type(of: self)) \(#function)] 3: errorMessage: \(errorMessage)")
+                print("[\(type(of: self)) \(#function)] error: \(error)")
                 #endif
                 strongSelf.displayError(message: errorMessage)
                 return

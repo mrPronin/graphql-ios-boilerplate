@@ -25,8 +25,8 @@
 			<string>appicon_120</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.1062702088696-skscbia3mi4u6a3entta6nfr82sbf16u</string>
-				<string>fb469435813791573</string>
+                <string>com.googleusercontent.apps.380175813584-u5u3lrr1s7qhrva77nerlk9v7q4eo7ro</string>
+                <string>fb376858446538106</string>
 			</array>
 		</dict>
 	</array>
@@ -35,7 +35,7 @@
 	<key>FacebookAdvertiserIDCollectionEnabled</key>
 	<false/>
 	<key>FacebookAppID</key>
-	<string>469435813791573</string>
+	<string>376858446538106</string>
 	<key>FacebookAutoLogAppEventsEnabled</key>
 	<false/>
 	<key>FacebookDisplayName</key>
